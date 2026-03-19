@@ -1,14 +1,14 @@
 {
   "mainAssemblyName": "Portfolio.Web",
   "resources": {
-    "hash": "sha256-nI5PrCZ3Hjxhwe2L5L4UVa7vPZKJW2o2wQi1SMjor0g=",
+    "hash": "sha256-7a7Fw0mw2OFtLjI6RQV9yxnaN2nGBjmFcNroCO05Doc=",
     "fingerprinting": {
       "Blazored.LocalStorage.rtee5ama0k.wasm": "Blazored.LocalStorage.wasm",
       "Microsoft.AspNetCore.Components.vablri397t.wasm": "Microsoft.AspNetCore.Components.wasm",
       "Microsoft.AspNetCore.Components.Web.hytsqlvqd9.wasm": "Microsoft.AspNetCore.Components.Web.wasm",
-      "Microsoft.AspNetCore.Components.WebAssembly.uaknlrx3s8.wasm": "Microsoft.AspNetCore.Components.WebAssembly.wasm",
-      "Microsoft.Extensions.Configuration.l55puosoi1.wasm": "Microsoft.Extensions.Configuration.wasm",
-      "Microsoft.Extensions.Configuration.Abstractions.cuab40t1l4.wasm": "Microsoft.Extensions.Configuration.Abstractions.wasm",
+      "Microsoft.AspNetCore.Components.WebAssembly.nj5zes0wbd.wasm": "Microsoft.AspNetCore.Components.WebAssembly.wasm",
+      "Microsoft.Extensions.Configuration.wcwg83t39r.wasm": "Microsoft.Extensions.Configuration.wasm",
+      "Microsoft.Extensions.Configuration.Abstractions.8cxuxmp6xt.wasm": "Microsoft.Extensions.Configuration.Abstractions.wasm",
       "Microsoft.Extensions.Configuration.Json.jgtmx19396.wasm": "Microsoft.Extensions.Configuration.Json.wasm",
       "Microsoft.Extensions.DependencyInjection.3a6dl14lbh.wasm": "Microsoft.Extensions.DependencyInjection.wasm",
       "Microsoft.Extensions.DependencyInjection.Abstractions.q9lju2xeip.wasm": "Microsoft.Extensions.DependencyInjection.Abstractions.wasm",
@@ -41,9 +41,9 @@
       "System.Threading.n5ppejuuhz.wasm": "System.Threading.wasm",
       "netstandard.gx74505ihw.wasm": "netstandard.wasm",
       "System.Private.CoreLib.3f55zwy3cb.wasm": "System.Private.CoreLib.wasm",
-      "Portfolio.Web.kfnt0z03xv.wasm": "Portfolio.Web.wasm",
-      "Portfolio.Web.resources.l67tbjjmtr.wasm": "Portfolio.Web.resources.wasm",
-      "Portfolio.Web.resources.4qarjv3n9u.wasm": "Portfolio.Web.resources.wasm",
+      "Portfolio.Web.gom6duko5y.wasm": "Portfolio.Web.wasm",
+      "Portfolio.Web.resources.12hd8miu2z.wasm": "Portfolio.Web.resources.wasm",
+      "Portfolio.Web.resources.8a7z42qae9.wasm": "Portfolio.Web.resources.wasm",
       "dotnet.js": "dotnet.js",
       "dotnet.native.xidrk0eo52.js": "dotnet.native.js",
       "dotnet.native.y68cfu4kuf.wasm": "dotnet.native.wasm",
@@ -70,9 +70,9 @@
       "Blazored.LocalStorage.rtee5ama0k.wasm": "sha256-cVAxLiUb8qzzOCkXKHPqqYyCUTBYWMeHuxWMBiceDLc=",
       "Microsoft.AspNetCore.Components.vablri397t.wasm": "sha256-dx/7cN1mgZ9iarJx4aWPRT47vN8MU+f9t0/OexNVjLs=",
       "Microsoft.AspNetCore.Components.Web.hytsqlvqd9.wasm": "sha256-qcTUDxYrQMsyGTpGpUo4fxu/Ocz/6FEWysywIy/P1KY=",
-      "Microsoft.AspNetCore.Components.WebAssembly.uaknlrx3s8.wasm": "sha256-eugNC0t3YTXjB6jTa2oEdmh+OF+yOm20w5/YKGqdipY=",
-      "Microsoft.Extensions.Configuration.l55puosoi1.wasm": "sha256-pxuMwLn3YRyOwbEyv6LO0/XL0TpWaYLXxB7uFJJ2hIQ=",
-      "Microsoft.Extensions.Configuration.Abstractions.cuab40t1l4.wasm": "sha256-pJ8m9rwlxxQR9l9u95d82xrckfFk2oUbOQngC3Fb2As=",
+      "Microsoft.AspNetCore.Components.WebAssembly.nj5zes0wbd.wasm": "sha256-08TAHCpK4Ot1/xBFs85eAfxOhcAxplrh7WuNiftKERA=",
+      "Microsoft.Extensions.Configuration.wcwg83t39r.wasm": "sha256-MHSystsuGvrkXFFtEI6jS86OGhVpb3ubg/Q4cMr1/Gw=",
+      "Microsoft.Extensions.Configuration.Abstractions.8cxuxmp6xt.wasm": "sha256-SO2QTJHkFvkjX/3LmM2tepl2wraPornaEO16a+cs5mo=",
       "Microsoft.Extensions.Configuration.Json.jgtmx19396.wasm": "sha256-XQykit2HYxnB0emmOc5bra6XuZq3KgCfazi8kFAErDs=",
       "Microsoft.Extensions.DependencyInjection.3a6dl14lbh.wasm": "sha256-9UXLgXsTsxevhGnpprSr4MiLUnOt8FRkbHd/UIyzsPQ=",
       "Microsoft.Extensions.DependencyInjection.Abstractions.q9lju2xeip.wasm": "sha256-kldd8+2OxiKUPr854v3bCJHcDqsmTaSafByEL92vLZQ=",
@@ -103,20 +103,23 @@
       "System.Text.RegularExpressions.0dsm3cl979.wasm": "sha256-FFykQ+kAAP07g/uCw4XB5dloFN6Z67td4iqzQqKZkas=",
       "System.Threading.n5ppejuuhz.wasm": "sha256-ZVqAdmVQkqedPOVid8yORJq6/P4I+NlvR19QR4PIQfY=",
       "netstandard.gx74505ihw.wasm": "sha256-3AkAzKJJ42r3oL3BgjfNcNtKkaOqcVnBz4S7uN49RjY=",
-      "Portfolio.Web.kfnt0z03xv.wasm": "sha256-4EexKzqyG61QyKMlEqXwZOuEPLuWCAyZ+HQze8L+/pI="
+      "Portfolio.Web.gom6duko5y.wasm": "sha256-sKL+2cUSt03GDaD+jMEmSycyqThx9ZmANZDK1XoVa3g="
     },
     "satelliteResources": {
       "en-US": {
-        "Portfolio.Web.resources.l67tbjjmtr.wasm": "sha256-nZBJngRNRKAsD7JVTpfVcLJpKmdCL/qutt7ADXN9So0="
+        "Portfolio.Web.resources.12hd8miu2z.wasm": "sha256-mVf5dxhKJt4H9g+oyIXjoVinCgx6wrkr4cuaArA9RIs="
       },
       "pt-BR": {
-        "Portfolio.Web.resources.4qarjv3n9u.wasm": "sha256-DC56k7gtPfhglRGjxnAGqjyxAqteIJL4MFrrYAnS7lE="
+        "Portfolio.Web.resources.8a7z42qae9.wasm": "sha256-YAQzzb14t8Lx2CXJoLmO5CIxjO7vX9l5R38Qq/1uV/c="
       }
     }
   },
   "cacheBootResources": true,
   "debugLevel": 0,
   "linkerEnabled": true,
+  "appsettings": [
+    "../appsettings.json"
+  ],
   "globalizationMode": "all",
   "extensions": {
     "blazor": {}
