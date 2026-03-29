@@ -1,0 +1,51 @@
+@page "/experience"
+@inject PortfolioApiService Api
+@inject LanguageService Lang
+@inject IStringLocalizer<SharedResource> Loc
+@implements IDisposable
+
+
+
+<h2 class="section-title">@(Lang.Current == "pt" ? "Experiência" : "Experience")</h2>
+
+@if (experiences == null)
+{
+    <div class="spinner"></div>
+}
+else
+{
+    <div class="timeline experience-list">
+        @foreach (var exp in experiences)
+        {
+            <ExperienceCard Experience="exp" />
+        }
+    </div>
+}
+
+@code {
+    private IEnumerable<ExperienceDto>? experiences;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Lang.OnLanguageChanged += OnLanguageChanged;
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        experiences = await Api.GetExperiencesAsync(Lang.Current);
+        StateHasChanged();
+    }
+
+    private async void OnLanguageChanged() => await LoadAsync();
+
+    public void Dispose() => Lang.OnLanguageChanged -= OnLanguageChanged;
+}
+
+<style>
+    .experience-list {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+</style>

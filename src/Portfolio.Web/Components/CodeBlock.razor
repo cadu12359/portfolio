@@ -1,0 +1,25 @@
+@inject IJSRuntime JS
+
+<div class="code-block-container" style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+    <div class="code-header" style="background: #252526; padding: 0.5rem 1rem; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 0.5rem;">
+        <span class="dot red" style="width: 12px; height: 12px; border-radius: 50%; background: #ff5f56;"></span>
+        <span class="dot yellow" style="width: 12px; height: 12px; border-radius: 50%; background: #ffbd2e;"></span>
+        <span class="dot green" style="width: 12px; height: 12px; border-radius: 50%; background: #27c93f;"></span>
+        <span class="lang-label" style="color: #ccc; font-family: monospace; font-size: 0.85rem; margin-left: auto;">@Language</span>
+    </div>
+    <pre style="margin: 0; border-radius: 0; background-color: #1e1e1e !important;"><code @ref="codeElement" class="language-@Language">@Code</code></pre>
+</div>
+
+@code {
+    [Parameter] public string Code { get; set; } = string.Empty;
+    [Parameter] public string Language { get; set; } = "csharp";
+    private ElementReference codeElement;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!string.IsNullOrEmpty(Code))
+        {
+            await JS.InvokeVoidAsync("highlightSnippet", codeElement);
+        }
+    }
+}

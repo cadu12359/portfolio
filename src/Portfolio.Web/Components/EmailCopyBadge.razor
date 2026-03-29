@@ -1,0 +1,140 @@
+@inject IJSRuntime JS
+@inject Portfolio.Web.Services.LanguageService Lang
+@implements IDisposable
+
+<div class="email-badge-wrapper">
+    <div class="email-badge" @onclick="CopyEmail" title="@(Lang.Current == "pt" ? "Copiar Email" : "Copy Email")">
+        <span class="email-label">@(Lang.Current == "pt" ? "Contato" : "Get in touch"):</span>
+        <strong class="email-address">@Email</strong>
+        
+        <span class="copy-icon-box">
+            @if(copied)
+            {
+                <i class="fa-solid fa-check copy-success"></i>
+            }
+            else
+            {
+                <i class="fa-regular fa-copy"></i>
+            }
+        </span>
+    </div>
+    
+    @if(copied)
+    {
+        <div class="copy-alert slide-up">
+            @(Lang.Current == "pt" ? "Email copiado para a área de transferência!" : "Email copied to clipboard!")
+        </div>
+    }
+</div>
+
+@code {
+    private string Email = "csantoslima03@gmail.com";
+    private bool copied = false;
+
+    private async Task CopyEmail()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", Email);
+            copied = true;
+            StateHasChanged();
+            
+            // Reset after 3 seconds
+            _ = Task.Delay(3000).ContinueWith(_ => 
+            {
+                copied = false;
+                InvokeAsync(StateHasChanged);
+            });
+        }
+        catch
+        {
+            // Ignore if clipboard fails
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        Lang.OnLanguageChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        Lang.OnLanguageChanged -= StateHasChanged;
+    }
+}
+
+<style>
+.email-badge-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.email-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1.2rem;
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px dashed var(--surface-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.email-badge:hover {
+    background: rgba(0, 240, 255, 0.1);
+    border-color: var(--primary-accent);
+}
+
+.email-label {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.email-address {
+    color: var(--text-primary);
+    font-family: var(--font-code);
+    font-size: 1rem;
+    letter-spacing: -0.5px;
+}
+
+.copy-icon-box {
+    margin-left: 0.5rem;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+}
+
+.email-badge:hover .copy-icon-box {
+    color: var(--primary-accent);
+}
+
+.copy-success {
+    color: #50fa7b !important;
+}
+
+.copy-alert {
+    position: absolute;
+    bottom: -35px;
+    left: 0;
+    background: var(--text-primary);
+    color: var(--bg-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.slide-up {
+    animation: slideUpFade 0.3s ease forwards;
+}
+
+@@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>

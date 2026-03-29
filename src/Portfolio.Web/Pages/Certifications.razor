@@ -1,0 +1,186 @@
+@page "/certifications"
+@inject PortfolioApiService Api
+@inject LanguageService Lang
+@inject IStringLocalizer<SharedResource> Loc
+@implements IDisposable
+
+<h2 class="section-title">@(Lang.Current == "pt" ? "Certificações" : "Certifications")</h2>
+
+@if (certifications == null)
+{
+    <div class="spinner"></div>
+}
+else
+{
+    <div class="cert-grid">
+        @foreach (var cert in certifications)
+        {
+            <div class="cert-card glass-card">
+                <div class="cert-icon" style="background: @GetIconBg(cert.Name); border-color: @GetIconBorder(cert.Name);">
+                    <i class="@GetIconClass(cert.Name)"></i>
+                </div>
+                <div class="cert-body">
+                    <h3 class="cert-name">@cert.Name</h3>
+                    <span class="cert-issuer">@cert.Issuer</span>
+                    <span class="cert-date">
+                        @(Lang.Current == "pt" ? "Emitida em" : "Issued") @cert.IssueDate.ToString("MMM yyyy")
+                    </span>
+                    @if (!string.IsNullOrEmpty(cert.CredentialUrl))
+                    {
+                        <a href="@cert.CredentialUrl" target="_blank" class="cert-link">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            @(Lang.Current == "pt" ? "Ver Certificado" : "View Certificate")
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private IEnumerable<CertificationDto>? certifications;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Lang.OnLanguageChanged += OnLanguageChanged;
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        certifications = await Api.GetCertificationsAsync(Lang.Current);
+        StateHasChanged();
+    }
+
+    private async void OnLanguageChanged() => await LoadAsync();
+
+    public void Dispose() => Lang.OnLanguageChanged -= OnLanguageChanged;
+
+    private static string GetIconClass(string name) => name.ToLower() switch
+    {
+        var n when n.Contains("c#") || n.Contains("design pattern") => "devicon-csharp-plain colored",
+        var n when n.Contains("azure devops") => "devicon-azure-plain colored",
+        var n when n.Contains("azure") => "devicon-azure-plain colored",
+        var n when n.Contains("rest") || n.Contains("asp.net") || n.Contains("webapi") => "devicon-dotnetcore-plain colored",
+        var n when n.Contains("domain") || n.Contains("ddd") => "fa-solid fa-diagram-project",
+        _ => "fa-solid fa-certificate"
+    };
+
+    private static string GetIconBg(string name) => name.ToLower() switch
+    {
+        var n when n.Contains("c#") || n.Contains("design pattern") => "rgba(104, 33, 122, 0.12)",
+        var n when n.Contains("azure") => "rgba(0, 114, 198, 0.12)",
+        var n when n.Contains("rest") || n.Contains("asp.net") || n.Contains("webapi") => "rgba(81, 43, 212, 0.12)",
+        var n when n.Contains("domain") || n.Contains("ddd") => "rgba(255, 140, 0, 0.12)",
+        _ => "rgba(0, 240, 255, 0.08)"
+    };
+
+    private static string GetIconBorder(string name) => name.ToLower() switch
+    {
+        var n when n.Contains("c#") || n.Contains("design pattern") => "rgba(104, 33, 122, 0.35)",
+        var n when n.Contains("azure") => "rgba(0, 114, 198, 0.35)",
+        var n when n.Contains("rest") || n.Contains("asp.net") || n.Contains("webapi") => "rgba(81, 43, 212, 0.35)",
+        var n when n.Contains("domain") || n.Contains("ddd") => "rgba(255, 140, 0, 0.35)",
+        _ => "rgba(0, 240, 255, 0.15)"
+    };
+}
+
+<style>
+.cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.cert-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    padding: 1.5rem;
+    border-radius: 14px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.cert-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-accent), var(--primary-glow));
+}
+
+.cert-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 240, 255, 0.1);
+}
+
+.cert-icon {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    transition: transform 0.2s ease;
+}
+
+.cert-card:hover .cert-icon {
+    transform: scale(1.1);
+}
+
+.cert-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.cert-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.cert-issuer {
+    font-size: 0.85rem;
+    color: var(--primary-accent);
+    font-weight: 600;
+}
+
+.cert-date {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-family: var(--font-code);
+}
+
+.cert-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--primary-glow);
+    text-decoration: none;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    background: rgba(0, 240, 255, 0.06);
+    transition: background 0.2s ease, border-color 0.2s ease;
+    align-self: flex-start;
+}
+
+.cert-link:hover {
+    background: rgba(0, 240, 255, 0.15);
+    border-color: var(--primary-glow);
+}
+</style>

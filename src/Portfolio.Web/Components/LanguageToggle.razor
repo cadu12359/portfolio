@@ -1,0 +1,15 @@
+@inject LanguageService Lang
+@inject NavigationManager Nav
+
+<button class="lang-toggle" @onclick="ToggleAsync">
+    <span class="@(Lang.Current == "pt" ? "active" : "")">PT</span> |
+    <span class="@(Lang.Current == "en" ? "active" : "")">EN</span>
+</button>
+
+@code {
+    private async Task ToggleAsync()
+    {
+        await Lang.ToggleLanguageAsync();
+        Nav.NavigateTo(Nav.Uri, forceLoad: true);
+    }
+}

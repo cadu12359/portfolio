@@ -1,0 +1,343 @@
+@page "/architecture"
+@inject PortfolioApiService Api
+@inject LanguageService Lang
+@inject IStringLocalizer<SharedResource> Loc
+@implements IDisposable
+
+<PageTitle>@(Lang.Current == "pt" ? "Arquitetura desse portfolio" : "Portfolio Architecture") | Carlos Eduardo</PageTitle>
+
+<div class="arch-header">
+    <h2 class="section-title">@(Lang.Current == "pt" ? "Arquitetura desse portfolio" : "Portfolio Architecture")</h2>
+    <p class="arch-subtitle">
+        @(Lang.Current == "pt" 
+            ? "O site que você está navegando agora foi construído utilizando as mesmas tecnologias de um sistema real, como Clean Architecture, Banco de dados real, API Rest. Clique nas camadas abaixo para explorar." 
+            : "The site you are browsing right now was built using the same technologies as a real system, such as Clean Architecture, Real Database, and REST API. Click the layers below to explore.")
+    </p>
+</div>
+
+<div class="system-design-section">
+    <h3 class="sys-title">@(Lang.Current == "pt" ? "Diagrama de Implantação (System Design)" : "Deployment Diagram (System Design)")</h3>
+    <div class="system-design-diagram">
+        <!-- Node 1: Browser -->
+        <div class="diagram-node node-browser">
+            <i class="devicon-chrome-plain colored"></i>
+            <span class="node-title">Browser</span>
+            <span class="node-desc">HTTPS</span>
+        </div>
+        <div class="diagram-arrow">
+            <span class="arrow-icon">⇄</span>
+        </div>
+        <!-- Node 2: WASM -->
+        <div class="diagram-node node-blazor">
+            <i class="devicon-dotnetcore-plain colored"></i>
+            <span class="node-title">Blazor WASM</span>
+            <span class="node-desc">GitHub Pages</span>
+        </div>
+        <div class="diagram-arrow">
+            <span class="arrow-icon">⇄</span>
+            <span class="arrow-label label-rest">REST API</span>
+        </div>
+        <!-- Node 3: API -->
+        <div class="diagram-node node-api">
+            <i class="devicon-csharp-plain colored"></i>
+            <span class="node-title">.NET Core API</span>
+            <span class="node-desc">Railway</span>
+        </div>
+        <div class="diagram-arrow">
+            <span class="arrow-icon">⇄</span>
+            <span class="arrow-label label-ef">EF Core</span>
+        </div>
+        <!-- Node 4: DB -->
+        <div class="diagram-node node-db">
+            <i class="devicon-postgresql-plain colored"></i>
+            <span class="node-title">PostgreSQL</span>
+            <span class="node-desc">Database</span>
+        </div>
+    </div>
+</div>
+
+@if (layers == null)
+{
+    <div class="spinner"></div>
+}
+else
+{
+    <div class="architecture-container">
+        <!-- Layers List (Left) -->
+        <div class="architecture-diagram">
+            <h3 class="sys-title">@(Lang.Current == "pt" ? "Camadas do Sistema" : "System Layers")</h3>
+            @foreach (var layer in layers)
+            {
+                <div class="layer-block @(selectedLayer?.Id == layer.Id ? "active" : "")" @onclick="() => SelectLayer(layer)">
+                    <span class="layer-number">@layer.Order</span>
+                    <span class="layer-name">@layer.Name</span>
+                </div>
+                
+                @if (layer.Order < layers.Count())
+                {
+                    <div class="layer-connector">↓</div>
+                }
+            }
+        </div>
+        
+        <!-- Details Panel (Right) -->
+        <div class="architecture-details">
+            @if (selectedLayer == null)
+            {
+                <div class="glass-card empty-state">
+                    <p>@(Lang.Current == "pt" ? "Selecione uma camada para ver os detalhes." : "Select a layer to view details.")</p>
+                </div>
+            }
+            else
+            {
+                <div class="glass-card detail-card slide-in">
+                    <h3>@selectedLayer.Name</h3>
+                    <p class="layer-desc">@selectedLayer.Description</p>
+                    
+                    <CodeBlock @key="selectedLayer.Id" Code="@selectedLayer.CodeSnippet" Language="@selectedLayer.Language" />
+                    
+                    @if (!string.IsNullOrEmpty(selectedLayer.GitHubFileUrl))
+                    {
+                        <a href="@selectedLayer.GitHubFileUrl" target="_blank" class="glow-link btn-glow mt-4" style="display:inline-block">
+                            @(Lang.Current == "pt" ? "Ver código no GitHub" : "View code on GitHub")
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private IEnumerable<ArchitectureLayerDto>? layers;
+    private ArchitectureLayerDto? selectedLayer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Lang.OnLanguageChanged += OnLanguageChanged;
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        layers = await Api.GetArchitectureAsync(Lang.Current);
+        if (layers != null && layers.Any())
+        {
+            var targetId = selectedLayer?.Id ?? layers.First().Id;
+            selectedLayer = layers.FirstOrDefault(l => l.Id == targetId);
+        }
+        StateHasChanged();
+    }
+
+    private void SelectLayer(ArchitectureLayerDto layer)
+    {
+        selectedLayer = layer;
+    }
+
+    private async void OnLanguageChanged() => await LoadAsync();
+
+    public void Dispose() => Lang.OnLanguageChanged -= OnLanguageChanged;
+}
+
+<style>
+.arch-header { margin-bottom: 3rem; text-align: center; }
+.arch-subtitle { color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+
+.system-design-section {
+    margin-bottom: 4rem;
+    padding: 0;
+}
+
+.sys-title {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.system-design-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: 100%;
+    padding: 3rem 2rem;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    flex-wrap: nowrap;
+}
+
+.diagram-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.8rem 1.5rem;
+    background: var(--surface-color);
+    border: 1px solid var(--surface-border);
+    border-radius: 14px;
+    flex: 1;
+    min-width: 160px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.diagram-node::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+}
+.node-browser::before { background: #E34F26; }
+.node-blazor::before { background: #512BD4; }
+.node-api::before { background: #9E7DFF; }
+.node-db::before { background: #336791; }
+
+.diagram-node:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 240, 255, 0.1);
+}
+
+.diagram-node i {
+    font-size: 3.5rem;
+    margin-bottom: 1.2rem;
+}
+
+.node-title {
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-bottom: 0.4rem;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+}
+
+.node-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.diagram-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-secondary);
+}
+
+.arrow-icon {
+    font-size: 2rem;
+    color: var(--text-secondary);
+    opacity: 0.6;
+    margin-bottom: 0.5rem;
+}
+
+.arrow-label {
+    font-size: 0.70rem;
+    font-weight: 700;
+    font-family: var(--font-code);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.label-rest {
+    background: rgba(255, 42, 127, 0.15);
+    color: #ff2a7f;
+    border: 1px solid rgba(255, 42, 127, 0.3);
+}
+
+.label-ef {
+    background: rgba(0, 224, 150, 0.15);
+    color: #00e096;
+    border: 1px solid rgba(0, 224, 150, 0.3);
+}
+
+.architecture-container {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 4rem;
+    align-items: start;
+}
+
+.architecture-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.layer-block {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: var(--surface-color);
+    border: 1px solid var(--surface-border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.layer-block:hover {
+    border-color: rgba(0, 240, 255, 0.4);
+    transform: translateX(5px);
+}
+
+.layer-block.active {
+    background: rgba(0, 240, 255, 0.1);
+    border-color: var(--primary-glow);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    transform: translateX(10px);
+}
+
+.layer-number {
+    background: var(--primary-glow);
+    color: #000;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.layer-name { font-weight: 600; }
+.layer-connector { color: var(--text-secondary); padding: 0.5rem 0; font-size: 1.2rem; }
+.layer-desc { margin-bottom: 2rem; color: var(--text-secondary); font-size: 1.1rem; }
+
+.empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-secondary); }
+
+.slide-in { animation: slideIn 0.3s ease forwards; }
+
+@@keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@@media (max-width: 1100px) {
+    .system-design-diagram {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .diagram-arrow {
+        transform: rotate(90deg);
+    }
+    .arrow-label {
+        transform: rotate(-90deg);
+    }
+    .architecture-container { grid-template-columns: 1fr; }
+}
+
+@@media (max-width: 768px) {
+    .layer-block.active { transform: translateY(-5px); }
+    .layer-block:hover { transform: translateY(-3px); }
+}
+</style>

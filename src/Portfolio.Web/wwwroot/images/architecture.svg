@@ -1,0 +1,116 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" style="background-color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+    <defs>
+        <!-- Grid pattern -->
+        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f0f2f5" stroke-width="1"/>
+            <path d="M 800 0 L 0 0 0 100" fill="none" stroke="#e1e4e8" stroke-width="1"/>
+        </pattern>
+        <pattern id="grid-large" width="100" height="100" patternUnits="userSpaceOnUse">
+            <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#e1e4e8" stroke-width="1"/>
+            <path d="M 800 0 L 0 0 0 100" fill="none" stroke="#e1e4e8" stroke-width="1"/>
+            <path d="M 0 100 L 800 100" fill="none" stroke="#e1e4e8" stroke-width="1"/>
+        </pattern>
+        <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#545b64" />
+        </marker>
+        <marker id="arrow-sync" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#545b64" />
+        </marker>
+    </defs>
+
+    <!-- Background -->
+    <rect width="100%" height="100%" fill="url(#grid)" />
+    <rect width="100%" height="100%" fill="url(#grid-large)" />
+
+    <!-- USERS ICON -->
+    <g transform="translate(370, 25)">
+        <circle cx="20" cy="15" r="8" fill="none" stroke="#545b64" stroke-width="1.5" />
+        <path d="M 8 35 C 8 25, 32 25, 32 35" fill="none" stroke="#545b64" stroke-width="1.5" />
+        <circle cx="45" cy="15" r="8" fill="none" stroke="#545b64" stroke-width="1.5" />
+        <path d="M 33 35 C 33 25, 57 25, 57 35" fill="none" stroke="#545b64" stroke-width="1.5" />
+        <text x="32" y="55" fill="#545b64" font-size="12" text-anchor="middle" font-weight="bold">Client Browsers</text>
+    </g>
+
+    <!-- CLOUD BOUNDARY -->
+    <rect x="40" y="100" width="720" height="460" fill="none" stroke="#545b64" stroke-width="1.5" />
+    <rect x="40" y="100" width="120" height="24" fill="#545b64" />
+    <text x="50" y="117" fill="#ffffff" font-size="12" font-weight="bold">Cloud Provider</text>
+
+    <!-- CDN BOUNDARY (Generic Pages) -->
+    <rect x="100" y="140" width="200" height="100" fill="none" stroke="#3f8624" stroke-width="1" stroke-dasharray="5,3" />
+    <text x="110" y="155" fill="#3f8624" font-size="12">Content Delivery Network</text>
+    
+    <rect x="180" y="170" width="40" height="40" fill="#3f8624" rx="4" />
+    <circle cx="200" cy="188" r="8" fill="none" stroke="#fff" stroke-width="2"/> <!-- Bucket inner -->
+    <path d="M 192 182 L 208 182" stroke="#fff" stroke-width="2" />
+    <text x="200" y="225" fill="#232f3e" font-size="12" text-anchor="middle" font-weight="bold">Static Web Hosting</text>
+    <text x="200" y="240" fill="#545b64" font-size="10" text-anchor="middle">Blazor WASM Assets</text>
+
+    <!-- GENERIC VPC BOUNDARY -->
+    <rect x="60" y="300" width="680" height="240" fill="#f8fdf9" stroke="#3f8624" stroke-width="1.5" />
+    <rect x="60" y="300" width="24" height="24" fill="#3f8624" />
+    <path d="M 66 310 Q 72 305 78 310 Q 80 318 72 322 Q 64 318 66 310" fill="#ffffff" /> <!-- cloud icon -->
+    <text x="90" y="316" fill="#3f8624" font-size="12" font-weight="bold">Private Virtual Network (VPC)</text>
+
+    <!-- WEB SUBNET -->
+    <rect x="80" y="350" width="260" height="170" fill="#e9ecef" stroke="#ced4da" stroke-width="1" />
+    <!-- Lock icon for private subnet -->
+    <rect x="85" y="355" width="20" height="20" fill="#3f8624" />
+    <path d="M 92 365 L 92 362 C 92 358 98 358 98 362 L 98 365" fill="none" stroke="#ffffff" />
+    <rect x="91" y="365" width="8" height="6" fill="#ffffff" />
+    <text x="110" y="365" fill="#232f3e" font-size="12" font-weight="bold">Application Tier</text>
+
+    <!-- EC2/COMPUTE BLOCKS -->
+    <!-- Dashed orange auto scaling group -->
+    <rect x="130" y="400" width="160" height="90" fill="none" stroke="#d1660f" stroke-width="1" stroke-dasharray="4,2" />
+    
+    <rect x="160" y="430" width="30" height="30" fill="#d1660f" rx="3" />
+    <rect x="170" y="440" width="30" height="30" fill="#e87d1e" rx="3" /> <!-- stacked squares -->
+    <text x="210" y="445" fill="#232f3e" font-size="12" font-weight="bold">ASP.NET Core Web API</text>
+    <text x="210" y="460" fill="#545b64" font-size="10">Backend Compute</text>
+
+    <!-- DATABASE SUBNET -->
+    <rect x="460" y="350" width="260" height="170" fill="#e8f3f9" stroke="#b8daff" stroke-width="1" />
+    <!-- Lock icon -->
+    <rect x="465" y="355" width="20" height="20" fill="#0073bb" />
+    <path d="M 472 365 L 472 362 C 472 358 478 358 478 362 L 478 365" fill="none" stroke="#ffffff" />
+    <rect x="471" y="365" width="8" height="6" fill="#ffffff" />
+    <text x="490" y="365" fill="#232f3e" font-size="12" font-weight="bold">Data Tier</text>
+
+    <!-- DATABASE BLOCK -->
+    <!-- Dashed blue cluster group -->
+    <rect x="510" y="400" width="160" height="90" fill="none" stroke="#0073bb" stroke-width="1" stroke-dasharray="4,2" />
+
+    <rect x="540" y="435" width="30" height="30" fill="#0073bb" rx="3" />
+    <path d="M 545 445 C 545 440, 565 440, 565 445 L 565 455 C 565 460, 545 460, 545 455 Z" fill="none" stroke="#ffffff" stroke-width="1.5" /> <!-- DB Icon proper -->
+    <path d="M 545 450 C 545 455, 565 455, 565 450" fill="none" stroke="#ffffff" stroke-width="1.5" />
+    <text x="585" y="445" fill="#232f3e" font-size="12" font-weight="bold">Relational Database</text>
+    <text x="585" y="460" fill="#545b64" font-size="10">Primary DB Nodes</text>
+
+    <!-- ORTHOGONAL LINES -->
+    
+    <!-- 1) Users to CDN -->
+    <polyline points="380,65 200,65 200,135" fill="none" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)" />
+    <text x="290" y="60" fill="#545b64" font-size="10" text-anchor="middle">HTTPS</text>
+    
+    <!-- 2) Users to App API -->
+    <polyline points="420,65 420,285 210,285 210,395" fill="none" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)" />
+    <text x="425" y="170" fill="#545b64" font-size="10">REST HTTP Data</text>
+
+    <!-- 3) API to DB -->
+    <!-- From API block right to DB Block left -->
+    <polyline points="290,445 505,445" fill="none" stroke="#545b64" stroke-width="1.2" stroke-dasharray="4,2" marker-end="url(#arrow-sync)" />
+    <text x="400" y="435" fill="#545b64" font-size="10" text-anchor="middle">TCP Connection</text>
+    <text x="400" y="455" fill="#545b64" font-size="10" text-anchor="middle">(EF Core)</text>
+
+    <!-- NUMBERS IN BLUE CIRCLES -->
+    <circle cx="200" cy="110" r="10" fill="#0073bb" />
+    <text x="200" y="114" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">1</text>
+    
+    <circle cx="210" cy="380" r="10" fill="#0073bb" />
+    <text x="210" y="384" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">2</text>
+
+    <circle cx="400" cy="415" r="10" fill="#0073bb" />
+    <text x="400" y="419" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">3</text>
+
+</svg>

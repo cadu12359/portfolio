@@ -1,0 +1,73 @@
+# ===========================
+# .NET / C# / Blazor
+# ===========================
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.vs/
+.vs/
+_ReSharper*/
+*.DotSettings.user
+*.ncrunchproject
+*.ncrunchsolution
+*.userprefs
+.idea/
+
+# NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+
+# Publish outputs
+publish/
+[Pp]ublish/
+
+# Rider
+.idea/
+
+# ===========================
+# ASP.NET Core user secrets
+# ===========================
+**/appsettings.Development.json
+**/appsettings.Local.json
+
+# ===========================
+# Blazor WASM
+# ===========================
+wwwroot/_framework/
+wwwroot/*.br
+wwwroot/*.gz
+
+# ===========================
+# Docker
+# ===========================
+.dockerignore
+
+# ===========================
+# Environment / Secrets
+# ===========================
+.env
+.env.*
+!.env.example
+secrets.json
+**/secrets.json
+
+# ===========================
+# OS
+# ===========================
+Thumbs.db
+.DS_Store
+desktop.ini
+*.log
+*.tmp
+
+# ===========================
+# Misc
+# ===========================
+out.txt
+*.bak

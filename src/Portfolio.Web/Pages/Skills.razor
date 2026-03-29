@@ -1,0 +1,67 @@
+@page "/skills"
+@inject PortfolioApiService Api
+@inject LanguageService Lang
+@inject IStringLocalizer<SharedResource> Loc
+@implements IDisposable
+
+
+
+<h2 class="section-title">@(Lang.Current == "pt" ? "Habilidades" : "Skills")</h2>
+
+@if (skills == null)
+{
+    <div class="spinner"></div>
+}
+else
+{
+    var categories = skills.GroupBy(s => s.Category);
+    
+    <div class="skills-container">
+        @foreach (var category in categories)
+        {
+            <div class="skill-category glass-card">
+                <h3>@category.Key</h3>
+                <div class="skills-grid">
+                    @foreach (var skill in category)
+                    {
+                        <SkillBadge Skill="skill" />
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private IEnumerable<SkillDto>? skills;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Lang.OnLanguageChanged += OnLanguageChanged;
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        skills = await Api.GetSkillsAsync(Lang.Current);
+        StateHasChanged();
+    }
+
+    private async void OnLanguageChanged() => await LoadAsync();
+
+    public void Dispose() => Lang.OnLanguageChanged -= OnLanguageChanged;
+}
+
+<style>
+.skills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+</style>

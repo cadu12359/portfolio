@@ -1,0 +1,62 @@
+@page "/education"
+@inject PortfolioApiService Api
+@inject LanguageService Lang
+@inject IStringLocalizer<SharedResource> Loc
+@implements IDisposable
+
+
+
+<h2 class="section-title">@(Lang.Current == "pt" ? "Formação" : "Education")</h2>
+
+@if (educations == null)
+{
+        <div class="spinner"></div>
+}
+else
+{
+        <div class="education-list">
+        @foreach (var edu in educations)
+        {
+                    <div class="glass-card">
+                        <h3>@edu.Degree</h3>
+                        <h4>@edu.Institution</h4>
+                        <p>@edu.Field</p>
+                        <span class="date">@edu.StartYear - @edu.EndYear</span>
+                    </div>
+        }
+        </div>
+}
+
+@code {
+    private IEnumerable<EducationDto>? educations;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Lang.OnLanguageChanged += OnLanguageChanged;
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        educations = await Api.GetEducationAsync(Lang.Current);
+        StateHasChanged();
+    }
+
+    private async void OnLanguageChanged() => await LoadAsync();
+
+    public void Dispose() => Lang.OnLanguageChanged -= OnLanguageChanged;
+}
+
+<style>
+.education-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.date {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--primary-glow);
+    font-weight: 500;
+}
+</style>

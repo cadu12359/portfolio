@@ -1,0 +1,28 @@
+@inject IStringLocalizer<SharedResource> Loc
+
+<div class="glass-card project-card">
+    <h3 class="project-title">@Project.Title</h3>
+    <p class="description">@Project.Description</p>
+    
+    <div class="tech-stack">
+        @foreach (var tech in Project.Technologies)
+        {
+            <span class="tech-tag">@tech</span>
+        }
+    </div>
+
+    <div class="card-actions">
+        @if (!string.IsNullOrEmpty(Project.GitHubUrl))
+        {
+            <a href="@Project.GitHubUrl" target="_blank" class="glow-link">GitHub</a>
+        }
+        @if (!string.IsNullOrEmpty(Project.LiveUrl))
+        {
+            <a href="@Project.LiveUrl" target="_blank" class="glow-link">Live Demo</a>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public required ProjectDto Project { get; set; }
+}

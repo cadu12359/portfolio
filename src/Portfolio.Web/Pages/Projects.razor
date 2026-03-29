@@ -1,0 +1,51 @@
+@page "/projects"
+@inject PortfolioApiService Api
+@inject LanguageService Lang
+@inject IStringLocalizer<SharedResource> Loc
+@implements IDisposable
+
+
+
+<h2 class="section-title">@Loc["Projects"]</h2>
+
+@if (projects == null)
+{
+        <div class="spinner"></div>
+}
+else
+{
+        <div class="projects-grid">
+        @foreach (var project in projects)
+        {
+                    <ProjectCard Project="project" />
+        }
+        </div>
+}
+
+@code {
+    private IEnumerable<ProjectDto>? projects;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Lang.OnLanguageChanged += OnLanguageChanged;
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        projects = await Api.GetProjectsAsync(Lang.Current);
+        StateHasChanged();
+    }
+
+    private async void OnLanguageChanged() => await LoadAsync();
+
+    public void Dispose() => Lang.OnLanguageChanged -= OnLanguageChanged;
+}
+
+<style>
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+</style>

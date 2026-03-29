@@ -1,0 +1,81 @@
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject IStringLocalizer<SharedResource> Loc
+@inject Portfolio.Web.Services.LanguageService Lang
+
+@if (isReady)
+{
+    <div class="app-container">
+        <header class="glass-header">
+            <div class="header-content">
+                <a href="./" class="logo">Carlos <span>Eduardo</span></a>
+
+                <nav class="desktop-nav">
+                    <a href="#about">@(Lang.Current == "pt" ? "Sobre" : "About")</a>
+                    <a href="#experience">@(Lang.Current == "pt" ? "Experiência" : "Experience")</a>
+                    <a href="#skills">@(Lang.Current == "pt" ? "Habilidades" : "Skills")</a>
+                    <a href="#certifications">@(Lang.Current == "pt" ? "Certificações" : "Certifications")</a>
+                    <a href="#education">@(Lang.Current == "pt" ? "Formação" : "Education")</a>
+                    <a href="architecture" class="btn-glow">@(Lang.Current == "pt" ? "Arquitetura desse portfolio" : "Portfolio Architecture")</a>
+                </nav>
+
+                <div class="header-actions">
+                    <Portfolio.Web.Components.LanguageToggle />
+                    <button class="hamburger" @onclick="ToggleSidebar" aria-label="Menu">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        @* Mobile Sidebar *@
+        <div class="sidebar-overlay @(sidebarOpen ? "open" : "")" @onclick="CloseSidebar"></div>
+        <nav class="sidebar @(sidebarOpen ? "open" : "")">
+            <div class="sidebar-header">
+                <a href="./" class="logo" @onclick="CloseSidebar">Carlos <span>Eduardo</span></a>
+                <button class="sidebar-close" @onclick="CloseSidebar">&times;</button>
+            </div>
+            <a href="#about" @onclick="CloseSidebar">@(Lang.Current == "pt" ? "Sobre" : "About")</a>
+            <a href="#experience" @onclick="CloseSidebar">@(Lang.Current == "pt" ? "Experiência" : "Experience")</a>
+            <a href="#skills" @onclick="CloseSidebar">@(Lang.Current == "pt" ? "Habilidades" : "Skills")</a>
+            <a href="#certifications" @onclick="CloseSidebar">@(Lang.Current == "pt" ? "Certificações" : "Certifications")</a>
+            <a href="#education" @onclick="CloseSidebar">@(Lang.Current == "pt" ? "Formação" : "Education")</a>
+            <a href="architecture" class="btn-glow sidebar-btn" @onclick="CloseSidebar">@(Lang.Current == "pt" ? "Arquitetura" : "Architecture")</a>
+        </nav>
+
+        <main class="main-content">
+            @Body
+        </main>
+
+        <footer class="glass-footer">
+            <p>&copy; @DateTime.Now.Year Carlos Eduardo Santos Lima. All rights reserved.</p>
+        </footer>
+    </div>
+}
+else
+{
+    <div style="display:flex; justify-content:center; align-items:center; height:100vh;">
+        <span class="spinner"
+            style="width: 50px; height: 50px; border: 4px solid var(--border-color); border-top-color: var(--primary-glow); border-radius: 50%; animation: spin 1s linear infinite;"></span>
+    </div>
+}
+
+@code {
+    private bool isReady = false;
+    private bool sidebarOpen = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Lang.InitializeAsync();
+        Lang.OnLanguageChanged += StateHasChanged;
+        isReady = true;
+    }
+
+    private void ToggleSidebar() => sidebarOpen = !sidebarOpen;
+    private void CloseSidebar() => sidebarOpen = false;
+
+    public void Dispose()
+    {
+        Lang.OnLanguageChanged -= StateHasChanged;
+    }
+}

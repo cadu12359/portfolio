@@ -1,0 +1,153 @@
+@page "/"
+@inject IStringLocalizer<SharedResource> Loc
+@inject Portfolio.Web.Services.LanguageService Lang
+@implements IDisposable
+
+<section id="about" class="hero-section">
+    <div class="hero-image-container">
+        <img src="https://github.com/cadu12359.png" alt="Carlos Eduardo" class="profile-pic" />
+    </div>
+    <div class="hero-content">
+        <h1 class="glow-text">Carlos Eduardo</h1>
+        <h2 class="subtitle">@(Lang.Current == "pt" ? "Desenvolvedor de Software" : "Software Developer")</h2>
+        <p class="bio">
+            @if (Lang.Current == "pt")
+            {
+                <text>Desenvolvedor de Software Backend com mais de 7 anos de experiência, focado no ecossistema .NET, com sólida experiência na construção e evolução de APIs, microsserviços, monólitos e aplicações robustas e escaláveis. Atuo ativamente na criação de soluções de alta qualidade, aplicando princípios como SOLID, Clean Architecture e Domain-Driven Design (DDD) para garantir a manutenibilidade e evolução dos projetos. Sólida experiência em ambientes de desenvolvimento ágil (Scrum/Kanban) e cultura DevOps.</text>
+            }
+            else
+            {
+                <text>Backend Software Developer with over 7 years of experience, focused on .NET development, solid experience building and evolving APIs, microservices, monoliths, and robust, scalable applications. Actively involved in creating high-quality solutions, applying principles such as SOLID, Clean Architecture, and Domain-Driven Design (DDD) to ensure maintainability and evolution of projects. Solid experience in agile development environments (Scrum/Kanban) and in DevOps culture.</text>
+            }
+        </p>
+        
+        <div class="social-links">
+            <a href="https://github.com/cadu12359" target="_blank" class="btn-glow">GitHub</a>
+            <a href="https://www.linkedin.com/in/carlos-eduardo-santos-lima/" target="_blank" class="btn-glow">LinkedIn</a>
+            <Portfolio.Web.Components.EmailCopyBadge />
+        </div>
+    </div>
+</section>
+
+<ErrorBoundary>
+    <ChildContent>
+        <section id="experience" class="portfolio-section">
+            <Portfolio.Web.Pages.Experience />
+        </section>
+
+        <section id="skills" class="portfolio-section">
+            <Portfolio.Web.Pages.Skills />
+        </section>
+
+        <section id="certifications" class="portfolio-section">
+            <Portfolio.Web.Pages.Certifications />
+        </section>
+
+        <section id="education" class="portfolio-section">
+            <Portfolio.Web.Pages.Education />
+        </section>
+    </ChildContent>
+    <ErrorContent Context="ex">
+        <div style="background: darkred; color: white; padding: 20px; border-radius: 8px; margin: 2rem;">
+            <h2>💥 CRITICAL WASM EXCEPTION CAUGHT 💥</h2>
+            <p style="font-size: 1.2rem; font-weight: bold;">@ex.Message</p>
+            <pre style="white-space: pre-wrap; font-size: 0.8rem;">@ex.StackTrace</pre>
+        </div>
+    </ErrorContent>
+</ErrorBoundary>
+
+<style>
+.portfolio-section {
+    padding: 3.5rem 0;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.hero-section {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    gap: 4rem; /* Spacing between image and text */
+}
+.hero-image-container {
+    flex-shrink: 0;
+}
+.profile-pic {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%; /* Faz a foto ficar redonda */
+    object-fit: cover;
+    border: 4px solid var(--text-primary); /* Borda preta como no estilo flat */
+    box-shadow: 8px 8px 0px var(--tertiary-accent); /* Sombra amarela */
+}
+.glow-text {
+    font-size: 4.5rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+.subtitle {
+    font-size: 2rem;
+    color: var(--primary-accent);
+    margin-bottom: 2rem;
+    font-family: var(--font-ui);
+}
+.bio {
+    max-width: 650px;
+    margin: 0 0 3rem;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+.social-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Responsive — Tablet */
+@@media (max-width: 900px) {
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+        min-height: auto;
+        padding: 2rem 0;
+    }
+    .glow-text { font-size: 3rem; }
+    .subtitle { font-size: 1.5rem; }
+    .social-links { justify-content: center; }
+    .bio { margin: 0 auto 2rem; }
+    .profile-pic {
+        width: 160px;
+        height: 160px;
+    }
+}
+
+/* Responsive — Mobile */
+@@media (max-width: 600px) {
+    .portfolio-section { padding: 2rem 0; }
+    .hero-section { padding: 1rem 0; }
+    .glow-text { font-size: 2.2rem; }
+    .subtitle { font-size: 1.2rem; margin-bottom: 1rem; }
+    .bio { font-size: 0.95rem; }
+    .profile-pic {
+        width: 120px;
+        height: 120px;
+        box-shadow: 5px 5px 0px var(--tertiary-accent);
+    }
+}
+</style>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Lang.OnLanguageChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        Lang.OnLanguageChanged -= StateHasChanged;
+    }
+}

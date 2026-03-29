@@ -1,0 +1,62 @@
+name: 🌐 Deploy Web to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/Portfolio.Web/**'
+      - '.github/workflows/web-deploy.yml'
+
+# Allow only one concurrent deployment
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build & Deploy Blazor WASM
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # needed to push to gh-pages branch
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: 📦 Restore dependencies
+        run: dotnet restore src/Portfolio.Web/Portfolio.Web.csproj
+
+      - name: ⚙️ Set Production API URL
+        run: |
+          echo '{ "ApiBaseUrl": "${{ secrets.API_BASE_URL }}" }' > src/Portfolio.Web/wwwroot/appsettings.json
+
+      - name: 🏗️ Publish Blazor WASM
+        run: |
+          dotnet publish src/Portfolio.Web/Portfolio.Web.csproj \
+            -c Release \
+            -o publish/web \
+            --nologo
+
+      - name: ⚙️ Fix base href for GitHub Pages
+        run: |
+          # Replace <base href="/" /> with the repo-relative path
+          sed -i 's|<base href="/" />|<base href="/portfolio/" />|g' publish/web/wwwroot/index.html
+
+      - name: 🚫 Add .nojekyll to disable Jekyll processing
+        run: touch publish/web/wwwroot/.nojekyll
+
+      - name: 🔀 Copy index.html as 404.html for Blazor SPA routing
+        run: cp publish/web/wwwroot/index.html publish/web/wwwroot/404.html
+
+      - name: 📤 Deploy to GitHub Pages (gh-pages branch)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: publish/web/wwwroot
+          publish_branch: gh-pages

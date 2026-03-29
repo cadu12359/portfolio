@@ -1,0 +1,66 @@
+<div class="skill-badge color-@GetColorIndex()">
+    <i class="@GetIconClass() skill-svg"></i>
+    <span class="skill-name">@Skill.Name</span>
+</div>
+
+@code {
+    [Parameter] public required Portfolio.Web.Models.SkillDto Skill { get; set; }
+
+    private string GetColorIndex()
+    {
+        int hash = (Skill?.Name ?? "").GetHashCode() & 0x7FFFFFFF;
+        return (hash % 4).ToString(); 
+    }
+
+    private string GetIconClass()
+    {
+        return (Skill?.Icon ?? "").ToLower() switch
+        {
+            "csharp" => "devicon-csharp-plain",
+            "dotnet" => "devicon-dotnetcore-plain",
+            "api" => "fa-solid fa-network-wired",
+            "microservices" => "fa-solid fa-cubes",
+            "sqlserver" => "devicon-microsoftsqlserver-plain",
+            "postgresql" => "devicon-postgresql-plain",
+            "mongodb" => "devicon-mongodb-plain",
+            "ef" => "fa-solid fa-database",
+            "nhibernate" => "devicon-hibernate-plain",
+            "azure" => "devicon-azure-plain",
+            "docker" => "devicon-docker-plain",
+            "kubernetes" => "devicon-kubernetes-plain",
+            "rabbitmq" => "fa-solid fa-envelope-open-text",
+            "redis" => "devicon-redis-plain",
+            "datadog" => "fa-solid fa-shield-dog",
+            "splunk" => "fa-solid fa-magnifying-glass-chart",
+            _ => "fa-solid fa-code"
+        };
+    }
+}
+
+<style>
+.skill-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-family: var(--font-code), monospace; /* Keeps the code aesthetic for tech skills */
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 2px 2px 0px var(--text-primary);
+    transition: transform 0.1s ease;
+    border: 2px solid var(--text-primary);
+}
+.skill-svg {
+    font-size: 1.15rem;
+}
+.skill-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0px var(--text-primary);
+}
+/* Colorful pills matching flat theme */
+.color-0 { background-color: var(--primary-accent); color: white; }
+.color-1 { background-color: var(--secondary-accent); color: white; }
+.color-2 { background-color: var(--tertiary-accent); color: var(--text-primary); }
+.color-3 { background-color: #ffffff; color: var(--text-primary); }
+</style>

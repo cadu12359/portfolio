@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="About" xml:space="preserve">
+    <value>Sobre</value>
+  </data>
+  <data name="Experience" xml:space="preserve">
+    <value>Experiência</value>
+  </data>
+  <data name="Skills" xml:space="preserve">
+    <value>Habilidades</value>
+  </data>
+  <data name="Projects" xml:space="preserve">
+    <value>Projetos</value>
+  </data>
+  <data name="Certifications" xml:space="preserve">
+    <value>Certificações</value>
+  </data>
+  <data name="Education" xml:space="preserve">
+    <value>Formação</value>
+  </data>
+  <data name="Architecture" xml:space="preserve">
+    <value>Arquitetura desse portfolio</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Contato</value>
+  </data>
+  <data name="Bio" xml:space="preserve">
+    <value>Desenvolvedor de Software Backend com mais de 7 anos de experiência, focado no ecossistema .NET, com sólida experiência na construção e evolução de APIs, microsserviços, monólitos e aplicações robustas e escaláveis. Atuo ativamente na criação de soluções de alta qualidade, aplicando princípios como SOLID, Clean Architecture e Domain-Driven Design (DDD) para garantir a manutenibilidade e evolução dos projetos. Sólida experiência em ambientes de desenvolvimento ágil (Scrum/Kanban) e cultura DevOps.</value>
+  </data>
+</root>
