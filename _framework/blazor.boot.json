@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "Portfolio.Web",
   "resources": {
-    "hash": "sha256-qHMlciitVWqUOiO+5jkaZxP+UPNvNIPCCCZFlsFk7Sk=",
+    "hash": "sha256-u5na1qMET7C8MfCjd9Kfwiiz9dQcErShqCZVcSSYzoU=",
     "fingerprinting": {
       "Blazored.LocalStorage.rtee5ama0k.wasm": "Blazored.LocalStorage.wasm",
       "Microsoft.AspNetCore.Components.vablri397t.wasm": "Microsoft.AspNetCore.Components.wasm",
@@ -41,9 +41,9 @@
       "System.Threading.fc7xv20kgn.wasm": "System.Threading.wasm",
       "netstandard.inr82h31uo.wasm": "netstandard.wasm",
       "System.Private.CoreLib.96x1cvmdwm.wasm": "System.Private.CoreLib.wasm",
-      "Portfolio.Web.08icmxblg5.wasm": "Portfolio.Web.wasm",
-      "Portfolio.Web.resources.zccptgob5r.wasm": "Portfolio.Web.resources.wasm",
-      "Portfolio.Web.resources.1fqxqdffs3.wasm": "Portfolio.Web.resources.wasm",
+      "Portfolio.Web.bccyeleakv.wasm": "Portfolio.Web.wasm",
+      "Portfolio.Web.resources.lh8ysm885e.wasm": "Portfolio.Web.resources.wasm",
+      "Portfolio.Web.resources.8mg9i2ti16.wasm": "Portfolio.Web.resources.wasm",
       "dotnet.js": "dotnet.js",
       "dotnet.native.l1ds2rhypd.js": "dotnet.native.js",
       "dotnet.native.etgrtk5jba.wasm": "dotnet.native.wasm",
@@ -103,14 +103,14 @@
       "System.Text.RegularExpressions.o9m22yt7st.wasm": "sha256-xIh4vhOw5dKWjfh8EvwCLJ7e1YiPrpzjmfqlIq3vqEc=",
       "System.Threading.fc7xv20kgn.wasm": "sha256-kZV/RzEVrmrCpYrO/hzO+TBN2qUD+UP1MmZqksYAMzg=",
       "netstandard.inr82h31uo.wasm": "sha256-/tO3aw6BeeEc9UT/XHQYOVdANfKDvttN4FTcyprMumM=",
-      "Portfolio.Web.08icmxblg5.wasm": "sha256-QNHg1DxXGD8jCwxKt3b3Cb8fgZnIi/239JkCS1QdhQY="
+      "Portfolio.Web.bccyeleakv.wasm": "sha256-Bes/lTZhc6G2UFORiTnHBceJzdTbE9fP6CQTn0PPcls="
     },
     "satelliteResources": {
       "en-US": {
-        "Portfolio.Web.resources.zccptgob5r.wasm": "sha256-LTgFRPdmL77cQomTz1lbNE9yzru93HoXil/DTVlfZI0="
+        "Portfolio.Web.resources.lh8ysm885e.wasm": "sha256-h2yYV+4OycfNFMdIJnVYmFVGmnBpAedD7ruT7wzcxVA="
       },
       "pt-BR": {
-        "Portfolio.Web.resources.1fqxqdffs3.wasm": "sha256-/WGc/qQyW+k7sL6AKxWiSBJWaAsXG8ItIpiRQw85a28="
+        "Portfolio.Web.resources.8mg9i2ti16.wasm": "sha256-oFnYlxYqOb+pXHQbvnoRpNNaVS7n4DtfGnMVWsJYkB0="
       }
     }
   },
