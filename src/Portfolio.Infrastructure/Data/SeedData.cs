@@ -106,23 +106,29 @@ public static class SeedData
             new() { NamePt = ".NET / ASP.NET Core", NameEn = ".NET / ASP.NET Core", CategoryPt = "Backend", CategoryEn = "Backend", Icon = "dotnet", Order = 2 },
             new() { NamePt = "Web API RESTful", NameEn = "RESTful Web API", CategoryPt = "Backend", CategoryEn = "Backend", Icon = "api", Order = 3 },
             new() { NamePt = "Microsserviços", NameEn = "Microservices", CategoryPt = "Backend", CategoryEn = "Backend", Icon = "microservices", Order = 4 },
+            new() { NamePt = "SOLID", NameEn = "SOLID", CategoryPt = "Backend", CategoryEn = "Backend", Icon = "solid", Order = 5 },
+            new() { NamePt = "Domain-Driven Design", NameEn = "Domain-Driven Design", CategoryPt = "Backend", CategoryEn = "Backend", Icon = "ddd", Order = 6 },
+            new() { NamePt = "Clean Architecture", NameEn = "Clean Architecture", CategoryPt = "Backend", CategoryEn = "Backend", Icon = "cleanarch", Order = 7 },
             // Banco de Dados
-            new() { NamePt = "SQL Server", NameEn = "SQL Server", CategoryPt = "Banco de Dados", CategoryEn = "Database", Icon = "sqlserver", Order = 5 },
-            new() { NamePt = "PostgreSQL", NameEn = "PostgreSQL", CategoryPt = "Banco de Dados", CategoryEn = "Database", Icon = "postgresql", Order = 6 },
-            new() { NamePt = "MongoDB", NameEn = "MongoDB", CategoryPt = "Banco de Dados", CategoryEn = "Database", Icon = "mongodb", Order = 7 },
+            new() { NamePt = "SQL Server", NameEn = "SQL Server", CategoryPt = "Banco de Dados", CategoryEn = "Database", Icon = "sqlserver", Order = 8 },
+            new() { NamePt = "PostgreSQL", NameEn = "PostgreSQL", CategoryPt = "Banco de Dados", CategoryEn = "Database", Icon = "postgresql", Order = 9 },
+            new() { NamePt = "MongoDB", NameEn = "MongoDB", CategoryPt = "Banco de Dados", CategoryEn = "Database", Icon = "mongodb", Order = 10 },
+            new() { NamePt = "MySQL", NameEn = "MySQL", CategoryPt = "Banco de Dados", CategoryEn = "Database", Icon = "mysql", Order = 11 },
             // ORM
-            new() { NamePt = "Entity Framework Core", NameEn = "Entity Framework Core", CategoryPt = "ORM", CategoryEn = "ORM", Icon = "ef", Order = 8 },
-            new() { NamePt = "NHibernate", NameEn = "NHibernate", CategoryPt = "ORM", CategoryEn = "ORM", Icon = "nhibernate", Order = 9 },
+            new() { NamePt = "Entity Framework Core", NameEn = "Entity Framework Core", CategoryPt = "ORM", CategoryEn = "ORM", Icon = "ef", Order = 12 },
+            new() { NamePt = "NHibernate", NameEn = "NHibernate", CategoryPt = "ORM", CategoryEn = "ORM", Icon = "nhibernate", Order = 13 },
+            new() { NamePt = "Dapper", NameEn = "Dapper", CategoryPt = "ORM", CategoryEn = "ORM", Icon = "dapper", Order = 14 },
             // Cloud / DevOps
-            new() { NamePt = "Azure", NameEn = "Azure", CategoryPt = "Cloud / DevOps", CategoryEn = "Cloud / DevOps", Icon = "azure", Order = 10 },
-            new() { NamePt = "Docker", NameEn = "Docker", CategoryPt = "Cloud / DevOps", CategoryEn = "Cloud / DevOps", Icon = "docker", Order = 11 },
-            new() { NamePt = "Kubernetes", NameEn = "Kubernetes", CategoryPt = "Cloud / DevOps", CategoryEn = "Cloud / DevOps", Icon = "kubernetes", Order = 12 },
+            new() { NamePt = "Azure", NameEn = "Azure", CategoryPt = "Cloud / DevOps", CategoryEn = "Cloud / DevOps", Icon = "azure", Order = 15 },
+            new() { NamePt = "Docker", NameEn = "Docker", CategoryPt = "Cloud / DevOps", CategoryEn = "Cloud / DevOps", Icon = "docker", Order = 16 },
+            new() { NamePt = "Kubernetes", NameEn = "Kubernetes", CategoryPt = "Cloud / DevOps", CategoryEn = "Cloud / DevOps", Icon = "kubernetes", Order = 17 },
             // Mensageria
-            new() { NamePt = "RabbitMQ", NameEn = "RabbitMQ", CategoryPt = "Mensageria", CategoryEn = "Messaging", Icon = "rabbitmq", Order = 13 },
-            new() { NamePt = "Redis", NameEn = "Redis", CategoryPt = "Mensageria", CategoryEn = "Messaging", Icon = "redis", Order = 14 },
+            new() { NamePt = "RabbitMQ", NameEn = "RabbitMQ", CategoryPt = "Mensageria", CategoryEn = "Messaging", Icon = "rabbitmq", Order = 18 },
+            new() { NamePt = "Amazon SQS", NameEn = "Amazon SQS", CategoryPt = "Mensageria", CategoryEn = "Messaging", Icon = "sqs", Order = 19 },
+            new() { NamePt = "Redis", NameEn = "Redis", CategoryPt = "Mensageria", CategoryEn = "Messaging", Icon = "redis", Order = 20 },
             // Observabilidade
-            new() { NamePt = "Datadog", NameEn = "Datadog", CategoryPt = "Observabilidade", CategoryEn = "Observability", Icon = "datadog", Order = 15 },
-            new() { NamePt = "Splunk", NameEn = "Splunk", CategoryPt = "Observabilidade", CategoryEn = "Observability", Icon = "splunk", Order = 16 },
+            new() { NamePt = "Datadog", NameEn = "Datadog", CategoryPt = "Observabilidade", CategoryEn = "Observability", Icon = "datadog", Order = 21 },
+            new() { NamePt = "Splunk", NameEn = "Splunk", CategoryPt = "Observabilidade", CategoryEn = "Observability", Icon = "splunk", Order = 22 },
         };
 
         await context.Skills.AddRangeAsync(skills);
