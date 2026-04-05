@@ -23,12 +23,12 @@ This project follows **Clean Architecture** with clear layer separation and zero
                      │ REST API (HTTP/JSON)
 ┌────────────────────▼────────────────────────────┐
 │           ASP.NET Core Web API (Backend)        │
-│                    Railway                      │
+│          Oracle Cloud VPS (Docker + Caddy)      │
 └────────────────────┬────────────────────────────┘
                      │ EF Core
 ┌────────────────────▼────────────────────────────┐
 │              PostgreSQL Database                │
-│                    Railway                      │
+│              Oracle Cloud VPS (Docker)          │
 └─────────────────────────────────────────────────┘
 ```
 
@@ -61,8 +61,9 @@ This project follows **Clean Architecture** with clear layer separation and zero
 - Bilingual support (PT-BR / EN) with `LanguageService` and `.resx` files
 
 ### Infrastructure
-- **Docker Compose** for local development
-- **Railway** for API and PostgreSQL hosting
+- **Docker Compose** for deployment and local development
+- **Oracle Cloud (Always Free)** VPS for API and PostgreSQL hosting
+- **Caddy Server** for automatic HTTPS (SSL) reverse proxy
 - **GitHub Pages** for Blazor WASM deployment
 - **GitHub Actions** for CI/CD
 
