@@ -12,8 +12,8 @@ public static class SeedData
         if (!await context.Experiences.AnyAsync())
             await SeedExperiencesAsync(context);
 
-        if (!await context.Skills.AnyAsync())
-            await SeedSkillsAsync(context);
+        // Always reseed skills (clear + reinsert) so new skills are always deployed
+        await ReseedSkillsAsync(context);
 
         if (!await context.Certifications.AnyAsync())
             await SeedCertificationsAsync(context);
@@ -97,8 +97,15 @@ public static class SeedData
         );
     }
 
-    private static async Task SeedSkillsAsync(PortfolioDbContext context)
+    private static async Task ReseedSkillsAsync(PortfolioDbContext context)
     {
+        // Remove existing skills and reinsert to ensure new skills are always deployed
+        if (await context.Skills.AnyAsync())
+        {
+            context.Skills.RemoveRange(context.Skills);
+            await context.SaveChangesAsync();
+        }
+
         var skills = new List<Skill>
         {
             // Backend
