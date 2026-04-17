@@ -175,6 +175,14 @@ public static class SeedData
                 Issuer = "desenvolvedor.io",
                 IssueDate = new DateTime(2022, 3, 1, 0, 0, 0, DateTimeKind.Utc),
                 CredentialUrl = "https://desenvolvedor.io/certificado/98c125a8-a634-4d69-94d3-f79891001541"
+            },
+            new Certification
+            {
+                NamePt = "Microsoft Certified: Conceitos básicos do Azure",
+                NameEn = "Microsoft Certified: Azure Fundamentals",
+                Issuer = "Microsoft",
+                IssueDate = new DateTime(2026, 4, 14, 0, 0, 0, DateTimeKind.Utc),
+                CredentialUrl = "https://learn.microsoft.com/en-us/users/carloslima-5778/credentials/11817a0c9879606a"
             }
         );
     }
