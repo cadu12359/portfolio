@@ -23,8 +23,6 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Host=db;Database=portfolio;Username=portfolio_user;Password=${POSTGRES_PASSWORD}
       - AllowedOrigins__0=https://cadu12359.github.io
-    ports:
-      - "80:8080"
     depends_on:
       db:
         condition: service_healthy
