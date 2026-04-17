@@ -15,8 +15,8 @@ public static class SeedData
         // Always reseed skills (clear + reinsert) so new skills are always deployed
         await ReseedSkillsAsync(context);
 
-        if (!await context.Certifications.AnyAsync())
-            await SeedCertificationsAsync(context);
+        // Always reseed certifications so new ones are deployed
+        await ReseedCertificationsAsync(context);
 
         if (!await context.Educations.AnyAsync())
             await SeedEducationsAsync(context);
@@ -139,6 +139,16 @@ public static class SeedData
         };
 
         await context.Skills.AddRangeAsync(skills);
+    }
+
+    private static async Task ReseedCertificationsAsync(PortfolioDbContext context)
+    {
+        if (await context.Certifications.AnyAsync())
+        {
+            context.Certifications.RemoveRange(context.Certifications);
+            await context.SaveChangesAsync();
+        }
+        await SeedCertificationsAsync(context);
     }
 
     private static async Task SeedCertificationsAsync(PortfolioDbContext context)
