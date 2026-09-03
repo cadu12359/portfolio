@@ -130,16 +130,16 @@ All GET endpoints accept an optional `?lang=pt` or `?lang=en` query parameter (d
 | `GET` | `/api/skills` | Technical skills by category |
 | `GET` | `/api/certifications` | Certifications with credential links |
 | `GET` | `/api/education` | Education history |
-| `GET` | `/api/architecture` | Architecture layers (powers interactive section) |
+| `GET` | `/api/architecture` | Legacy architecture layer metadata (not used by the overview page) |
 | `POST` | `/api/contact` | Send contact email |
 
 ---
 
 ## ✨ Features
 
-- **Interactive Architecture Section** — "How it was built" walks visitors through the codebase layer by layer with real code snippets
+- **Architecture Overview** — Deployment topology, backend responsibilities, architecture decisions, and visual foundations in PT-BR / EN. The page is bundled with the frontend and remains readable when the API is unavailable.
 - **Multilingual** — Full PT-BR / EN support with dynamic switching, no page reload
-- **Dynamic data** — All content is served from a real PostgreSQL database via REST API
+- **Dynamic data** — Experience, skills, projects, certifications, and education are served from PostgreSQL via REST API
 - **Responsive design** — Adapts to all screen sizes
 - **Containerized** — Full Docker Compose setup with health checks
 

@@ -1,343 +1,165 @@
 @page "/architecture"
-@inject PortfolioApiService Api
 @inject LanguageService Lang
-@inject IStringLocalizer<SharedResource> Loc
 @implements IDisposable
 
-<PageTitle>@(Lang.Current == "pt" ? "Arquitetura desse portfolio" : "Portfolio Architecture") | Carlos Eduardo</PageTitle>
+<PageTitle>@T("Arquitetura do portfólio", "Portfolio architecture") | Carlos Eduardo</PageTitle>
 
-<div class="arch-header">
-    <h2 class="section-title">@(Lang.Current == "pt" ? "Arquitetura desse portfolio" : "Portfolio Architecture")</h2>
-    <p class="arch-subtitle">
-        @(Lang.Current == "pt" 
-            ? "O site que você está navegando agora foi construído utilizando as mesmas tecnologias de um sistema real, como Clean Architecture, Banco de dados real, API Rest. Clique nas camadas abaixo para explorar." 
-            : "The site you are browsing right now was built using the same technologies as a real system, such as Clean Architecture, Real Database, and REST API. Click the layers below to explore.")
-    </p>
-</div>
+<article class="architecture-page">
+    <header class="architecture-intro">
+        <a class="back-link" href="./"><span aria-hidden="true">←</span> @T("Voltar ao portfólio", "Back to portfolio")</a>
+        <p class="eyebrow">@T("POR DENTRO DO PROJETO", "INSIDE THE PROJECT")</p>
+        <h1>@T("Arquitetura & decisões", "Architecture & decisions")<span class="title-dot">.</span></h1>
+        <p class="intro-description">@T("Da interface à infraestrutura: como este portfólio é organizado, onde cada parte executa e quais escolhas sustentam a implementação.", "From interface to infrastructure: how this portfolio is organized, where each part runs, and the choices behind its implementation.")</p>
+        <a class="source-link" href="https://github.com/cadu12359/portfolio" target="_blank" rel="noopener noreferrer">@T("Explorar repositório", "Explore repository") <span aria-hidden="true">↗</span></a>
+    </header>
 
-<div class="system-design-section">
-    <h3 class="sys-title">@(Lang.Current == "pt" ? "Diagrama de Implantação (System Design)" : "Deployment Diagram (System Design)")</h3>
-    <div class="system-design-diagram">
-        <!-- Node 1: Browser -->
-        <div class="diagram-node node-browser">
-            <i class="devicon-chrome-plain colored"></i>
-            <span class="node-title">Browser</span>
-            <span class="node-desc">HTTPS</span>
+    <section class="architecture-section" aria-labelledby="system-heading">
+        <div class="section-heading">
+            <h2 id="system-heading">@T("Visão do sistema", "System overview")</h2>
+            <span class="section-note">@T("TOPOLOGIA DE IMPLANTAÇÃO", "DEPLOYMENT TOPOLOGY")</span>
         </div>
-        <div class="diagram-arrow">
-            <span class="arrow-icon">⇄</span>
+        <figure class="system-map" aria-labelledby="system-heading" aria-describedby="system-caption">
+            <div class="map-heading">
+                <span class="map-label">@T("INTERFACE → SERVIÇOS → DADOS", "INTERFACE → SERVICES → DATA")</span>
+                <span class="map-caption">@T("Frontend estático · backend em contêineres", "Static frontend · containerized backend")</span>
+            </div>
+            <div class="deployment-flow">
+                <div class="deployment-zone client-zone">
+                    <div class="zone-heading"><span>01</span> @T("DISTRIBUIÇÃO & CLIENTE", "DELIVERY & CLIENT")</div>
+                    <div class="system-node delivery-node">
+                        <span class="node-kind">@T("HOSPEDAGEM ESTÁTICA", "STATIC HOSTING")</span>
+                        <h3>GitHub Pages</h3>
+                        <p>@T("Distribui os arquivos da aplicação.", "Serves the application files.")</p>
+                    </div>
+                    <div class="vertical-connection"><span aria-hidden="true">↓</span> @T("HTTPS · download da aplicação", "HTTPS · application download")</div>
+                    <div class="system-node browser-node">
+                        <span class="node-kind">@T("EXECUÇÃO NO NAVEGADOR", "RUNS IN THE BROWSER")</span>
+                        <h3>Blazor WebAssembly</h3>
+                        <p>@T("Renderiza a interface e consulta a API.", "Renders the interface and calls the API.")</p>
+                        <span class="node-detail">C# <span aria-hidden="true">/</span> .NET 9 <span aria-hidden="true">/</span> PT + EN</span>
+                    </div>
+                </div>
+                <div class="horizontal-connection">
+                    <span>HTTPS</span>
+                    <span class="connection-line" aria-hidden="true">→</span>
+                    <span>REST / JSON</span>
+                </div>
+                <div class="deployment-zone cloud-zone">
+                    <div class="zone-heading"><span>02</span> ORACLE CLOUD <span class="zone-meta">VPS</span></div>
+                    <div class="system-node proxy-node">
+                        <span class="node-kind">@T("ENTRADA HTTPS", "HTTPS ENTRY POINT")</span>
+                        <h3>Caddy <span class="inline-detail">reverse proxy</span></h3>
+                    </div>
+                    <div class="vertical-connection"><span aria-hidden="true">↓</span> HTTP</div>
+                    <div class="container-boundary">
+                        <span class="boundary-label">Docker Compose</span>
+                        <div class="system-node api-node">
+                            <span class="node-kind">@T("APLICAÇÃO", "APPLICATION")</span>
+                            <h3>ASP.NET Core API</h3>
+                            <p>@T("Endpoints e serviços de aplicação.", "Endpoints and application services.")</p>
+                        </div>
+                        <div class="vertical-connection"><span aria-hidden="true">↓</span> EF Core / Npgsql</div>
+                        <div class="system-node database-node">
+                            <span class="node-kind">@T("PERSISTÊNCIA", "PERSISTENCE")</span>
+                            <h3>PostgreSQL</h3>
+                            <p>@T("Conteúdo do portfólio · volume persistente.", "Portfolio content · persistent volume.")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <figcaption id="system-caption">@T("O navegador recebe a aplicação do GitHub Pages e consulta a API via Caddy. A API acessa o PostgreSQL pela rede interna do Docker; o banco não publica uma porta externa no Compose de produção.", "The browser loads the application from GitHub Pages and calls the API through Caddy. The API accesses PostgreSQL over Docker's internal network; the production Compose configuration does not publish a database port.")</figcaption>
+        </figure>
+        <div class="delivery-strip">
+            <span class="delivery-label">GitHub Actions</span>
+            <p>@T("Alterações em main acionam os fluxos de publicação: frontend no GitHub Pages; backend na VPS via SSH e Docker Compose.", "Changes to main trigger the deployment workflows: frontend to GitHub Pages; backend to the VPS through SSH and Docker Compose.")</p>
         </div>
-        <!-- Node 2: WASM -->
-        <div class="diagram-node node-blazor">
-            <i class="devicon-dotnetcore-plain colored"></i>
-            <span class="node-title">Blazor WASM</span>
-            <span class="node-desc">GitHub Pages</span>
-        </div>
-        <div class="diagram-arrow">
-            <span class="arrow-icon">⇄</span>
-            <span class="arrow-label label-rest">REST API</span>
-        </div>
-        <!-- Node 3: API -->
-        <div class="diagram-node node-api">
-            <i class="devicon-csharp-plain colored"></i>
-            <span class="node-title">.NET Core API</span>
-            <span class="node-desc">Oracle Cloud (Docker)</span>
-        </div>
-        <div class="diagram-arrow">
-            <span class="arrow-icon">⇄</span>
-            <span class="arrow-label label-ef">EF Core</span>
-        </div>
-        <!-- Node 4: DB -->
-        <div class="diagram-node node-db">
-            <i class="devicon-postgresql-plain colored"></i>
-            <span class="node-title">PostgreSQL</span>
-            <span class="node-desc">Oracle Cloud (Docker)</span>
-        </div>
-    </div>
-</div>
+    </section>
 
-@if (layers == null)
-{
-    <div class="spinner"></div>
-}
-else
-{
-    <div class="architecture-container">
-        <!-- Layers List (Left) -->
-        <div class="architecture-diagram">
-            <h3 class="sys-title">@(Lang.Current == "pt" ? "Camadas do Sistema" : "System Layers")</h3>
-            @foreach (var layer in layers)
-            {
-                <div class="layer-block @(selectedLayer?.Id == layer.Id ? "active" : "")" @onclick="() => SelectLayer(layer)">
-                    <span class="layer-number">@layer.Order</span>
-                    <span class="layer-name">@layer.Name</span>
-                </div>
-                
-                @if (layer.Order < layers.Count())
-                {
-                    <div class="layer-connector">↓</div>
-                }
-            }
+    <section class="architecture-section" aria-labelledby="structure-heading">
+        <div class="section-heading">
+            <h2 id="structure-heading">@T("Organização do backend", "Backend structure")</h2>
+            <span class="section-note">CLEAN ARCHITECTURE</span>
         </div>
-        
-        <!-- Details Panel (Right) -->
-        <div class="architecture-details">
-            @if (selectedLayer == null)
-            {
-                <div class="glass-card empty-state">
-                    <p>@(Lang.Current == "pt" ? "Selecione uma camada para ver os detalhes." : "Select a layer to view details.")</p>
-                </div>
-            }
-            else
-            {
-                <div class="glass-card detail-card slide-in">
-                    <h3>@selectedLayer.Name</h3>
-                    <p class="layer-desc">@selectedLayer.Description</p>
-                    
-                    <CodeBlock @key="selectedLayer.Id" Code="@selectedLayer.CodeSnippet" Language="@selectedLayer.Language" />
-                    
-                    @if (!string.IsNullOrEmpty(selectedLayer.GitHubFileUrl))
-                    {
-                        <a href="@selectedLayer.GitHubFileUrl" target="_blank" class="glow-link btn-glow mt-4" style="display:inline-block">
-                            @(Lang.Current == "pt" ? "Ver código no GitHub" : "View code on GitHub")
-                        </a>
-                    }
-                </div>
-            }
+        <p class="section-description">@T("Um backend organizado em projetos com responsabilidades distintas. O domínio não referencia infraestrutura; os repositórios implementam contratos definidos no núcleo.", "One backend organized into projects with distinct responsibilities. The domain does not reference infrastructure; repositories implement contracts defined in the core.")</p>
+        <div class="responsibility-list">
+            <div class="responsibility-row">
+                <h3><span class="layer-marker" aria-hidden="true"></span>API</h3>
+                <p>@T("Recebe as requisições HTTP, configura os serviços e expõe os endpoints.", "Receives HTTP requests, configures services, and exposes endpoints.")</p>
+            </div>
+            <div class="responsibility-row">
+                <h3><span class="layer-marker" aria-hidden="true"></span>Application</h3>
+                <p>@T("Coordena os serviços e transforma o conteúdo em DTOs no idioma solicitado.", "Coordinates services and maps content to DTOs in the requested language.")</p>
+            </div>
+            <div class="responsibility-row">
+                <h3><span class="layer-marker domain-marker" aria-hidden="true"></span>Domain</h3>
+                <p>@T("Define as entidades e os contratos de repositório, sem dependências de frameworks.", "Defines entities and repository contracts, without framework dependencies.")</p>
+            </div>
+            <div class="responsibility-row">
+                <h3><span class="layer-marker" aria-hidden="true"></span>Infrastructure</h3>
+                <p>@T("Implementa os repositórios e o acesso ao PostgreSQL com Entity Framework Core.", "Implements repositories and PostgreSQL access with Entity Framework Core.")</p>
+            </div>
         </div>
-    </div>
-}
+    </section>
+
+    <section class="architecture-section" aria-labelledby="decisions-heading">
+        <div class="section-heading">
+            <h2 id="decisions-heading">@T("Decisões de arquitetura", "Architecture decisions")</h2>
+            <span class="section-note">@T("CONTEXTO DAS DECISÕES", "DECISION CONTEXT")</span>
+        </div>
+        <div class="decision-list">
+            <div class="decision-row">
+                <span class="decision-index" aria-hidden="true">01</span>
+                <div><h3>@T("C# do cliente ao servidor", "C# from client to server")</h3><p>@T("Blazor integra interface e backend no ecossistema .NET. Uma linguagem comum traz consistência ao desenvolvimento e facilita a manutenção da aplicação.", "Blazor brings the interface and backend together in the .NET ecosystem. A shared language brings consistency to development and simplifies application maintenance.")</p></div>
+            </div>
+            <div class="decision-row">
+                <span class="decision-index" aria-hidden="true">02</span>
+                <div><h3>@T("Conteúdo servido por API", "API-driven content")</h3><p>@T("Experiências, habilidades e formação ficam centralizadas no PostgreSQL e são disponibilizadas pela API. Essa organização separa conteúdo e apresentação, permitindo atualizar os dados sem recompilar a interface.", "Experience, skills, and education are centralized in PostgreSQL and served through the API. This structure separates content from presentation, allowing data updates without rebuilding the interface.")</p></div>
+            </div>
+            <div class="decision-row">
+                <span class="decision-index" aria-hidden="true">03</span>
+                <div><h3>@T("Infraestrutura com Docker", "Docker-based infrastructure")</h3><p>@T("API e banco executam em contêineres na Oracle Cloud, com serviços e persistência definidos no Docker Compose. A integração com GitHub Actions automatiza a publicação e mantém a operação organizada.", "The API and database run in containers on Oracle Cloud, with services and persistence defined in Docker Compose. GitHub Actions integration automates deployment and keeps operations organized.")</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="architecture-section visual-system" aria-labelledby="visual-heading">
+        <div class="section-heading">
+            <h2 id="visual-heading">@T("Sistema visual", "Visual system")</h2>
+            <span class="section-note">@T("BASE DA INTERFACE", "INTERFACE FOUNDATIONS")</span>
+        </div>
+        <div class="visual-foundations">
+            <div class="visual-foundation">
+                <span class="foundation-label">@T("TIPOGRAFIA", "TYPOGRAPHY")</span>
+                <span class="type-specimen" aria-hidden="true">Aa<span>0123</span></span>
+                <h3>Fira Code</h3>
+                <p>@T("Tipografia monoespaçada como identidade do portfólio.", "Monospaced typography as the portfolio's visual identity.")</p>
+            </div>
+            <div class="visual-foundation">
+                <span class="foundation-label">@T("PALETA", "PALETTE")</span>
+                <div class="palette-swatches" aria-hidden="true"><span class="swatch-ink"></span><span class="swatch-teal"></span><span class="swatch-pink"></span><span class="swatch-amber"></span></div>
+                <h3>@T("Neutros + acentos", "Neutrals + accents")</h3>
+                <p>@T("Grafite, teal, rosa e âmbar definidos em variáveis CSS compartilhadas.", "Graphite, teal, pink, and amber defined through shared CSS variables.")</p>
+            </div>
+            <div class="visual-foundation">
+                <span class="foundation-label">@T("COMPOSIÇÃO", "COMPOSITION")</span>
+                <div class="component-specimen" aria-hidden="true"><span></span><span></span><span></span></div>
+                <h3>@T("Componentes Blazor", "Blazor components")</h3>
+                <p>@T("Cards, badges e seletor de idioma reutilizados entre as páginas.", "Cards, badges, and a language switcher reused across pages.")</p>
+            </div>
+        </div>
+    </section>
+    <footer class="architecture-footer">
+        <span>@T("A implementação completa está no repositório.", "The full implementation is in the repository.")</span>
+        <a class="source-link" href="https://github.com/cadu12359/portfolio" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+    </footer>
+</article>
 
 @code {
-    private IEnumerable<ArchitectureLayerDto>? layers;
-    private ArchitectureLayerDto? selectedLayer;
+    private string T(string pt, string en) => Lang.Current == "pt" ? pt : en;
 
-    protected override async Task OnInitializedAsync()
-    {
-        Lang.OnLanguageChanged += OnLanguageChanged;
-        await LoadAsync();
-    }
+    protected override void OnInitialized() => Lang.OnLanguageChanged += OnLanguageChanged;
 
-    private async Task LoadAsync()
-    {
-        layers = await Api.GetArchitectureAsync(Lang.Current);
-        if (layers != null && layers.Any())
-        {
-            var targetId = selectedLayer?.Id ?? layers.First().Id;
-            selectedLayer = layers.FirstOrDefault(l => l.Id == targetId);
-        }
-        StateHasChanged();
-    }
-
-    private void SelectLayer(ArchitectureLayerDto layer)
-    {
-        selectedLayer = layer;
-    }
-
-    private async void OnLanguageChanged() => await LoadAsync();
+    private void OnLanguageChanged() => _ = InvokeAsync(StateHasChanged);
 
     public void Dispose() => Lang.OnLanguageChanged -= OnLanguageChanged;
 }
-
-<style>
-.arch-header { margin-bottom: 3rem; text-align: center; }
-.arch-subtitle { color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
-
-.system-design-section {
-    margin-bottom: 4rem;
-    padding: 0;
-}
-
-.sys-title {
-    text-align: center;
-    margin-bottom: 2.5rem;
-    font-size: 1.5rem;
-    color: var(--text-primary);
-}
-
-.system-design-diagram {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    width: 100%;
-    padding: 3rem 2rem;
-    background: rgba(255, 255, 255, 0.01);
-    border: 1px dashed rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    flex-wrap: nowrap;
-}
-
-.diagram-node {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 1.8rem 1.5rem;
-    background: var(--surface-color);
-    border: 1px solid var(--surface-border);
-    border-radius: 14px;
-    flex: 1;
-    min-width: 160px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.diagram-node::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-}
-.node-browser::before { background: #E34F26; }
-.node-blazor::before { background: #512BD4; }
-.node-api::before { background: #9E7DFF; }
-.node-db::before { background: #336791; }
-
-.diagram-node:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(0, 240, 255, 0.1);
-}
-
-.diagram-node i {
-    font-size: 3.5rem;
-    margin-bottom: 1.2rem;
-}
-
-.node-title {
-    font-weight: 700;
-    font-size: 1.15rem;
-    margin-bottom: 0.4rem;
-    color: var(--text-primary);
-    letter-spacing: -0.5px;
-}
-
-.node-desc {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-.diagram-arrow {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: var(--text-secondary);
-}
-
-.arrow-icon {
-    font-size: 2rem;
-    color: var(--text-secondary);
-    opacity: 0.6;
-    margin-bottom: 0.5rem;
-}
-
-.arrow-label {
-    font-size: 0.70rem;
-    font-weight: 700;
-    font-family: var(--font-code);
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-}
-
-.label-rest {
-    background: rgba(255, 42, 127, 0.15);
-    color: #ff2a7f;
-    border: 1px solid rgba(255, 42, 127, 0.3);
-}
-
-.label-ef {
-    background: rgba(0, 224, 150, 0.15);
-    color: #00e096;
-    border: 1px solid rgba(0, 224, 150, 0.3);
-}
-
-.architecture-container {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 4rem;
-    align-items: start;
-}
-
-.architecture-diagram {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.layer-block {
-    width: 100%;
-    padding: 1rem 1.5rem;
-    background: var(--surface-color);
-    border: 1px solid var(--surface-border);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.layer-block:hover {
-    border-color: rgba(0, 240, 255, 0.4);
-    transform: translateX(5px);
-}
-
-.layer-block.active {
-    background: rgba(0, 240, 255, 0.1);
-    border-color: var(--primary-glow);
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
-    transform: translateX(10px);
-}
-
-.layer-number {
-    background: var(--primary-glow);
-    color: #000;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 0.8rem;
-}
-
-.layer-name { font-weight: 600; }
-.layer-connector { color: var(--text-secondary); padding: 0.5rem 0; font-size: 1.2rem; }
-.layer-desc { margin-bottom: 2rem; color: var(--text-secondary); font-size: 1.1rem; }
-
-.empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-secondary); }
-
-.slide-in { animation: slideIn 0.3s ease forwards; }
-
-@@keyframes slideIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@@media (max-width: 1100px) {
-    .system-design-diagram {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-    .diagram-arrow {
-        transform: rotate(90deg);
-    }
-    .arrow-label {
-        transform: rotate(-90deg);
-    }
-    .architecture-container { grid-template-columns: 1fr; }
-}
-
-@@media (max-width: 768px) {
-    .layer-block.active { transform: translateY(-5px); }
-    .layer-block:hover { transform: translateY(-3px); }
-}
-</style>
